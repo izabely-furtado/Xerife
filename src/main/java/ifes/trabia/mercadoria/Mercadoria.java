@@ -15,7 +15,7 @@ public class Mercadoria{
     private final int penalidade;
     public int quantCartas;
     private final Tipo tipo;
-    private final Tipo id;
+    public final Tipo id;
     
     private Mercadoria (int quantCartas, int valor, int penalidade, Tipo tipo, Tipo identificador) {
         this.valor = valor;

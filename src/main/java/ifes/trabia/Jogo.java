@@ -19,11 +19,13 @@ public class Jogo {
     public int quantJogadores;
     public Jogador[] Jogadores;
     public Embaralha baralho;
+    public Xerife xerife;
     
     Jogo(int quantJogadores, Jogador[] jogadores){
         this.quantJogadores = quantJogadores;
         this.Jogadores = jogadores;
         this.baralho = new Embaralha(this.quantJogadores, 10);
+        this.xerife = new Xerife();
     }
     
     

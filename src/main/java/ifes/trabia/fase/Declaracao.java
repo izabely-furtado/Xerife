@@ -8,7 +8,14 @@ package ifes.trabia.fase;
 /**
  *
  * @author IzabelyFurtado
+ * Fase 3: Declaração
+    Declare ao Sheriff quais bens você está entregando ao mercado[já com propina ou nao].
+        - Apenas Bens legais pode ser declarado.
+        - Apenas um tipo de bem pode ser declarado.
+        - Você deve declarar o número exato de mercadorias na bolsa.
+
  */
 public class Declaracao {
+    
     
 }

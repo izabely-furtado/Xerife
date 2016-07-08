@@ -26,11 +26,11 @@ Você pode descartar cartas indesejadas e comprar novas.
     - [somente temos duas pilhas de descarte, e ambas comecam com 5 cartas viradas pra cima no comeco do jogo]
 */
    
-public class Mercado {
+public final class Mercado {
 
-    private Jogo jogo;
+    public Jogo jogo;
     
-    Mercado (Jogo jogo){
+    public Mercado (Jogo jogo){
         this.jogo = jogo;
         Random gerador = new Random();
         int resultado, resultado2;

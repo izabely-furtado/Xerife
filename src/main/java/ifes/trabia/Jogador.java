@@ -21,7 +21,7 @@ public class Jogador {
     //mercadorias arrecadadas
     MercadoriaTotal arrecadadas;
     //mercadorias a mão
-    Mercadoria[] emMaos;
+    public Mercadoria[] emMaos;
     public List<Mercadoria> emMaosVizualizada;
     public float confianca;
     
@@ -53,8 +53,21 @@ public class Jogador {
         return original;
     }
     
-    public void mentiu(int quantRodadas){
-        this.confianca -= 1/quantRodadas;
+    //jogando por alto a quantidade de partidas total seria 10
+    public void mentiu(){
+        this.confianca -= 1/10;
+    }
+
+    public int perdeOuro(int penalidade) {
+        if (penalidade <= ouro){
+            this.ouro -= penalidade;
+            return penalidade;
+        }
+        else {
+            int antes = this.ouro;
+            this.ouro = 0;
+            return antes;
+        }
     }
     
     
