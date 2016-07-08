@@ -15,6 +15,8 @@ public enum Tipo {
     //identificador de mercadoria
     maca, queijo, pao, galinha, 
     pimenta, hidroMel, tecido, besta, 
-    macaVerde, macaDourada, queijoGouda, queijoAzul, paoCenteio, paoCenteioIntegral, galoReal
+    macaVerde, macaDourada, queijoGouda, queijoAzul, paoCenteio, paoCenteioIntegral, galoReal,
+    //tipo de baralho ou descarte
+    baralho, descarte1, descarte2
     ;
 }

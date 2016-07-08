@@ -8,6 +8,7 @@ package ifes.trabia.mercadoria;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -19,7 +20,7 @@ public class Embaralha {
     List<Mercadoria> descarte1;
     List<Mercadoria> descarte2;
     
-    Embaralha(int quantJogadores){
+    public Embaralha(int quantJogadores){
         //construindo baralho
         this.baralho = new ArrayList();
         Tipo[] vetTipo = {Tipo.maca, Tipo.queijo, Tipo.pao, Tipo.galinha, 
@@ -55,7 +56,7 @@ public class Embaralha {
         }
     }
     
-    Embaralha(int quantJogadores, int quantCartasRemover){
+    public Embaralha(int quantJogadores, int quantCartasRemover){
         Embaralha baralhoSem = new Embaralha(quantJogadores);
         for (int i = 0; i < quantCartasRemover; i++) {
             baralhoSem.baralho.remove(i);
@@ -64,4 +65,31 @@ public class Embaralha {
         this.descarte1 = baralhoSem.descarte1;
         this.descarte2 = baralhoSem.descarte2;
     }
+    
+    public Mercadoria getBaralho(){
+        return this.baralho.remove(this.descarte1.size()-1);
+    }
+    
+    public Mercadoria getDescarte1(){
+        return this.descarte1.remove(this.descarte1.size()-1);
+    }
+    
+    public Mercadoria getDescarte2(){
+        return this.descarte2.remove(this.descarte1.size()-1);
+    }
+    
+    //devolve aleatoriamente em um dos descartes
+    public Tipo setDescarte(Mercadoria merc){
+        Random gerador = new Random();
+        boolean resultado = gerador.nextBoolean();
+        if (resultado == true){
+            this.descarte1.add(merc);
+            return Tipo.descarte1;
+        }
+        else{
+            this.descarte2.add(merc);
+            return Tipo.descarte2;
+        }
+    }
+    
 }

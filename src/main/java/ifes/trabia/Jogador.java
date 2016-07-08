@@ -7,7 +7,9 @@ package ifes.trabia;
 
 import ifes.trabia.mercadoria.Mercadoria;
 import ifes.trabia.mercadoria.MercadoriaTotal;
-import java.util.Set;
+import ifes.trabia.mercadoria.Tipo;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -19,6 +21,41 @@ public class Jogador {
     //mercadorias arrecadadas
     MercadoriaTotal arrecadadas;
     //mercadorias a mão
-    Set<Mercadoria> cartas;
+    Mercadoria[] emMaos;
+    public List<Mercadoria> emMaosVizualizada;
+    public float confianca;
+    
+    Jogador(String nome){
+        this.nome = nome;
+        this.arrecadadas = new MercadoriaTotal(1);
+        this.ouro = 50;
+        this.emMaos = new Mercadoria[6];
+        this.emMaosVizualizada = new ArrayList();
+        this.confianca = 100;
+    }
+    
+    public void arrecada(Tipo identificador){
+        this.arrecadadas.getMercadoria(identificador).quantCartas++;
+    }
+    
+    public void colocaEmMaos(Mercadoria[] mercadorias){
+        this.emMaos = mercadorias;
+    }
+    
+    public void ganhaOuro(int quanto){
+        this.ouro += quanto;
+    }
+    
+    //entra com a mercadoria que vai ser trocado por this.emMaos[indice]
+    public Mercadoria troca(Mercadoria merc, int indice){
+        Mercadoria original = this.emMaos[indice];
+        this.emMaos[indice] = merc;
+        return original;
+    }
+    
+    public void mentiu(int quantRodadas){
+        this.confianca -= 1/quantRodadas;
+    }
+    
     
 }
