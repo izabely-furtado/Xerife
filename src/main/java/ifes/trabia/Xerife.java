@@ -17,7 +17,7 @@ import java.util.List;
 public class Xerife {
     int ouro;
     //mercadorias arrecadadas
-    MercadoriaTotal arrecadadas;
+    public MercadoriaTotal arrecadadas;
     
     Xerife(){
         this.ouro = 50;

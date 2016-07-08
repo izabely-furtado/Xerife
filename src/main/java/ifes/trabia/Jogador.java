@@ -17,9 +17,9 @@ import java.util.List;
  */
 public class Jogador {
     String nome;
-    int ouro;
+    public int ouro;
     //mercadorias arrecadadas
-    MercadoriaTotal arrecadadas;
+    public MercadoriaTotal arrecadadas;
     //mercadorias a mão
     public Mercadoria[] emMaos;
     public List<Mercadoria> emMaosVizualizada;

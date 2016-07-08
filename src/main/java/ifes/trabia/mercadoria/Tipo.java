@@ -17,6 +17,9 @@ public enum Tipo {
     pimenta, hidroMel, tecido, besta, 
     macaVerde, macaDourada, queijoGouda, queijoAzul, paoCenteio, paoCenteioIntegral, galoReal,
     //tipo de baralho ou descarte
-    baralho, descarte1, descarte2
+    baralho, descarte1, descarte2,
+    //tipo de decisao
+    subordo, inspecionar, nInspecionar
     ;
+    
 }

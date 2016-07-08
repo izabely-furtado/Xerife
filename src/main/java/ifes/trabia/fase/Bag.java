@@ -98,6 +98,22 @@ public class Bag {
         }
     }
     
+    public static List<Mercadoria> diferenca(List<Mercadoria> l1, List<Mercadoria> l2){
+        List<Mercadoria> dif = new ArrayList();
+        
+        if (l1.containsAll(l2)){
+            return dif;
+        }
+        else{
+            for (Mercadoria m: l2){
+                if (!l1.contains(m)){
+                    dif.add(m);
+                }
+            }
+            return dif;
+        }
+    }
+    
     public List<Mercadoria> igualdade(){
         List<Mercadoria> dif = new ArrayList();
         
@@ -132,7 +148,7 @@ public class Bag {
         else {
             retorno -= 1/9*diferenca().size()/this.entregou.size();
             for (Mercadoria m: diferenca){
-                if (m.getTipo()!=Tipo.Legal){
+                if (m.getTipo()!= Tipo.Legal){
                     maFe++; 
                 }
             }
@@ -141,9 +157,14 @@ public class Bag {
         }
     }
     
+/*    - Se o jogador está autorizado a passar, 
+    *   ele adquire todos os bens de sua posição de comerciante. 
+    *   bens normais vão pra suas áreas apropriadas. 
+    *   Contrabandos vao viradas para baixo[o xerife nao sabe qual contrabando passou].
     //o jogador ja é atualizado com 
         //as mercadorias do bag e 
         //a confiança
+    */
     public void seXerifeConfiou(){
         for (Mercadoria merc: this.entregou){
             this.jogador.arrecada(merc.id);
@@ -151,6 +172,12 @@ public class Bag {
         this.jogador.confianca += this.mudaConfianca();
     }
     
+    /*- Se um jogador é inspecionado, e não tem exatamente o que foi declarado, 
+    *   ele mantém todos os bens verdadeiramente declarados, 
+    *   e descarta todos os bens não-verdadeiras. 
+    *   Ele também paga o Sheriff a quantidade penalidade sobre os produtos descartados 
+    *       [e o xerife pega pra ele o q seria descartado].
+    */
     //o jogador ja é atualizado com 
         //as mercadorias do bag que ele disse que tinha
         //e a confiança
@@ -171,6 +198,34 @@ public class Bag {
                 this.xerife.recebe(this.jogador.perdeOuro(merc.getPenalidade()));
                 this.xerife.arrecada(merc.id);
             }
+        }
+        this.jogador.confianca += this.mudaConfianca();
+    }
+
+    //--------------------------SUBORNO-----------------------------------------
+/*    - Os jogadores podem oferecer subornos para evitar a inspeção. 
+    *   Na verdade, o Sheriff pode ameaçar uma inspeção para adquirir um suborno.
+            - Subornos podem incluir 
+            *   ouro, 
+            *   produtos no saco, 
+            *   Cartas na mão não pode ser usado em subornos.
+*/    
+    public void seXerifeSubornado(int ouro){
+        for (Mercadoria merc: this.entregou){
+            this.jogador.arrecada(merc.id);
+            this.jogador.perdeOuro(ouro);
+            this.xerife.recebe(ouro);
+        }
+        this.jogador.confianca += this.mudaConfianca();
+    }
+    
+    public void seXerifeSubornado(Mercadoria...produtoBag){
+        for (Mercadoria merc: produtoBag){
+            this.entregou.remove(merc);
+            this.xerife.arrecada(merc.id);
+        }
+        for (Mercadoria merc: this.entregou){
+            this.jogador.arrecada(merc.id);
         }
         this.jogador.confianca += this.mudaConfianca();
     }

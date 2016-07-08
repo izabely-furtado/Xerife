@@ -20,6 +20,7 @@ public class Embaralha {
     List<Mercadoria> descarte1;
     List<Mercadoria> descarte2;
     
+    
     public Embaralha(int quantJogadores){
         //construindo baralho
         this.baralho = new ArrayList();
@@ -53,6 +54,7 @@ public class Embaralha {
             else {
                 this.descarte2.add(merc);
             }
+    
         }
     }
     

@@ -5,10 +5,7 @@
  */
 package ifes.trabia.fase;
 
-import ifes.trabia.Jogador;
 import ifes.trabia.Jogo;
-import ifes.trabia.mercadoria.Mercadoria;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -27,7 +24,7 @@ import java.util.Random;
 public class CarregaDeclara {
     Jogo jogo;
     Bag[] bags;
-    CarregaDeclara(Jogo jogo){
+    public CarregaDeclara(Jogo jogo){
         Mercado faseMercado = new Mercado(jogo);
         this.jogo = faseMercado.jogo;
         //criando bags

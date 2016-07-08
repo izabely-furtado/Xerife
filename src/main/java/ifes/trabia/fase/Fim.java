@@ -5,16 +5,23 @@
  */
 package ifes.trabia.fase;
 
+import ifes.trabia.Jogador;
+import ifes.trabia.Jogo;
+
 /**
  *
  * @author IzabelyFurtado
  */
 public class Fim {
-/*
-    No fim do jogo, quem tiver :
-        mais macas, ganha 20 pontos extras, o segundo lugar, 15.
-        mais queijos, ganha 15 pontos extras, o segundo lugar, 10.
-        mais paes, ganha 15 pontos extras, o segundo lugar, 10.
-        mais galos, ganha 10 pontos extras, o segundo lugar, 5.
+    Jogo jogo;
+    /*
+    Fase 5: Fim da Rodada
+- Todos os jogadores devem comprar da pilha principal[a escondida] ate ter seis cartas.
 */
+    Fim(Jogo jogo){
+        this.jogo = new Inspecao(jogo).cartasDeclaras.jogo;
+        for (Jogador j:this.jogo.Jogadores){
+            j.emMaos
+        }
+    }
 }
