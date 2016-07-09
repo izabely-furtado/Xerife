@@ -5,7 +5,7 @@
  */
 package ifes.trabia.fase;
 
-import ifes.trabia.Jogador;
+import ifes.trabia.jogadores.Jogador;
 import ifes.trabia.Jogo;
 import ifes.trabia.mercadoria.Mercadoria;
 import ifes.trabia.mercadoria.MercadoriaTotal;

@@ -243,5 +243,9 @@ public class Mercadoria{
         }
     }
     
-    
+    @Override
+    public String toString(){
+        return "ID: " + this.id + " - Tipo: " + this.tipo + 
+               " - Valor: " + this.valor + " - Penalidade: " + this.penalidade;
+    }
 }

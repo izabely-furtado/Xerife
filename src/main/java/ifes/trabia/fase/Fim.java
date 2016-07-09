@@ -5,7 +5,7 @@
  */
 package ifes.trabia.fase;
 
-import ifes.trabia.Jogador;
+import ifes.trabia.jogadores.Jogador;
 import ifes.trabia.Jogo;
 
 /**
@@ -21,7 +21,9 @@ public class Fim {
     Fim(Jogo jogo){
         this.jogo = new Inspecao(jogo).cartasDeclaras.jogo;
         for (Jogador j:this.jogo.Jogadores){
-            j.emMaos
+            if (j.emMaos==null){
+                //j.emMaos
+            }
         }
     }
 }

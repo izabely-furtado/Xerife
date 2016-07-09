@@ -19,7 +19,9 @@ public enum Tipo {
     //tipo de baralho ou descarte
     baralho, descarte1, descarte2,
     //tipo de decisao
-    subordo, inspecionar, nInspecionar
+    subordo, inspecionar, nInspecionar,
+    //tipo de jogadores
+    Verdadeiro, Aleatorio, Contrabandista
     ;
     
 }

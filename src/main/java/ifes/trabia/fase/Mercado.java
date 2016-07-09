@@ -5,10 +5,12 @@
  */
 package ifes.trabia.fase;
 
-import ifes.trabia.Jogador;
+import ifes.trabia.jogadores.Jogador;
 import ifes.trabia.Jogo;
 import ifes.trabia.mercadoria.Mercadoria;
 import ifes.trabia.mercadoria.Tipo;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -32,25 +34,75 @@ public final class Mercado {
     
     public Mercado (Jogo jogo){
         this.jogo = jogo;
-        Random gerador = new Random();
-        int resultado, resultado2;
-        //pode desejar trocar 0 até 5 cartas
-        Mercadoria[] cartasParaTrocar = new Mercadoria[5];
         //em sentido horario
         for (Jogador j: this.jogo.Jogadores){
-            //quantas cartas vai descartar
-            resultado = gerador.nextInt(5);
-            for (int quant = 0; quant < resultado; quant++){
-                resultado2 = gerador.nextInt(resultado -1);
-                //faz a troca e descarta
-                j = this.houveTroca(j, resultado2, this.jogo.baralho.
-                        setDescarte(j.troca(this.jogo.baralho.getBaralho(), resultado2)));
-            }
+            this.TrocaDescarta(j);
         }
     }
     
-    public Jogador houveTroca(Jogador j, int indiceMercadoriaOriginal, Tipo devolucao){
-        Mercadoria adquirida, original;
+    public void TrocaDescarta(Jogador j){
+        List<Mercadoria> trocar = this.escolhePTrocar(j);
+        Tipo[] tBaralho = {Tipo.baralho, Tipo.descarte1, Tipo.descarte2};
+        Random gerador = new Random();
+        switch (tBaralho[gerador.nextInt(2)]){
+            case baralho:
+                //faz a troca e descarta
+                for (Mercadoria m : trocar){
+                    j = this.houveTroca(j, m, this.jogo.baralho.
+                    setDescarte(j.troca(this.jogo.baralho.getBaralho(), m)));
+                }
+            case descarte1:
+                //faz a troca e descarta
+                for (Mercadoria m : trocar){
+                    j = this.houveTroca(j, m, this.jogo.baralho.
+                    setDescarte(j.troca(this.jogo.baralho.getDescarte1(), m)));
+                }
+            case descarte2:
+                //faz a troca e descarta
+                for (Mercadoria m : trocar){
+                    j = this.houveTroca(j, m, this.jogo.baralho.
+                    setDescarte(j.troca(this.jogo.baralho.getDescarte2(), m)));
+                }
+        }
+    }
+    
+    //-------------------JOGADORES ESCOLHEM O QUE TROCAR------------------------
+    public static List<Mercadoria> escolhePTrocar(Jogador j){
+        switch (j.tipo){
+            case Verdadeiro:
+                return Mercado.pTrocarHonestamente(j);
+            case Contrabandista:
+                return Mercado.pTrocarContrabandista(j);
+            case Aleatorio:
+                return Mercado.pTrocar(j);
+        }
+        return null;
+    }
+    
+    static public List<Mercadoria> pTrocar(Jogador j){
+        Random gerador = new Random();
+        //pode desejar trocar 0 até 5 cartas
+        List<Mercadoria> cartasParaTrocar = new ArrayList();
+        for (Mercadoria m : j.emMaos){
+            //quais cartas vai descartar
+            if (gerador.nextBoolean() == true && cartasParaTrocar.size() <= 5){
+                cartasParaTrocar.add(m);
+            }
+        }
+        return cartasParaTrocar;
+    }
+        
+    static public List<Mercadoria> pTrocarHonestamente(Jogador j){
+        return Carrega.ilegais(j);
+    }
+    
+    static public List<Mercadoria> pTrocarContrabandista(Jogador j){
+        return Carrega.legais(j);
+    }
+    
+    //Identifica e faz trocas
+    public Jogador houveTroca(Jogador j, Mercadoria original, Tipo devolucao){
+        Mercadoria adquirida;
         switch(devolucao){
             case descarte1:
                 //descarto do 1 
@@ -58,7 +110,7 @@ public final class Mercado {
                 //considero essa mercadoria como ja vizualizada pelo xerife
                 j.emMaosVizualizada.add(adquirida);
                 //faço a troca de cartas
-                original = j.troca(adquirida, indiceMercadoriaOriginal);
+                original = j.troca(original, adquirida);
                 j.confianca += this.mudaConfianca(original, adquirida);
                 
             case descarte2:
@@ -67,13 +119,13 @@ public final class Mercado {
                 //considero essa mercadoria como ja vizualizada pelo xerife
                 j.emMaosVizualizada.add(adquirida);
                 //faço a troca de cartas
-                original = j.troca(adquirida, indiceMercadoriaOriginal);
+                original = j.troca(original, adquirida);
                 j.confianca += this.mudaConfianca(original, adquirida);
              
             case baralho:
                 //descarto do baralho sem guardar qual é a carta
                 //faço a troca de cartas
-                original = j.troca(this.jogo.baralho.getBaralho(), indiceMercadoriaOriginal);
+                original = j.troca(original, this.jogo.baralho.getBaralho());
                 j.confianca += this.mudaConfianca(original);
         }
         return j;

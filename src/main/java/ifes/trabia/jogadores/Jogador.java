@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ifes.trabia;
+package ifes.trabia.jogadores;
 
 import ifes.trabia.mercadoria.Mercadoria;
 import ifes.trabia.mercadoria.MercadoriaTotal;
@@ -24,7 +24,30 @@ public class Jogador {
     public Mercadoria[] emMaos;
     public List<Mercadoria> emMaosVizualizada;
     public float confianca;
+    public Tipo tipo;
     
+    @Override
+    public String toString(){
+        return this.nome + " - Tipo: " + this.tipo + " - Ouro: " + this.ouro + "Confianca: " + this.confianca +
+               " - Em mãos: \n" + this.toStringEmMaos() + "Vizualizada: \n" + this.toStringVizu();
+    }
+    
+    public String toStringEmMaos(){
+        String retorno = "";
+        for (Mercadoria m : this.emMaos){
+            retorno += m.toString() + "\n";
+        }
+        return retorno;
+    }
+
+    public String toStringVizu(){
+        String retorno = "";
+        for (Mercadoria m : this.emMaosVizualizada){
+            retorno += m.toString() + "\n";
+        }
+        return retorno;
+    }
+
     Jogador(String nome){
         this.nome = nome;
         this.arrecadadas = new MercadoriaTotal(1);
@@ -53,6 +76,17 @@ public class Jogador {
         return original;
     }
     
+    //entra com a mercadoria que vai ser trocado por this.emMaos[indice]
+    public Mercadoria troca(Mercadoria merc, Mercadoria mercNova){
+        for (int m = 0; m < this.emMaos.length; m++){
+            if (this.emMaos[m] == merc){
+                this.emMaos[m] = mercNova;
+                return merc;
+            }
+        }
+        return merc;
+    }
+    
     //jogando por alto a quantidade de partidas total seria 10
     public void mentiu(){
         this.confianca -= 1/10;
@@ -69,6 +103,7 @@ public class Jogador {
             return antes;
         }
     }
+    
     
     
 }

@@ -5,7 +5,7 @@
  */
 package ifes.trabia.fase;
 
-import ifes.trabia.Jogador;
+import ifes.trabia.jogadores.Jogador;
 import ifes.trabia.Xerife;
 import ifes.trabia.mercadoria.Mercadoria;
 import ifes.trabia.mercadoria.MercadoriaTotal;
@@ -67,6 +67,7 @@ public class Bag {
         //verifica se pelo ou menos 1 foi colocado no bag
         if (this.entregou.isEmpty()){
             Mercadoria m = this.jogador.emMaos[gerador.nextInt(5)];
+            this.jogador.emMaos[gerador.nextInt(5)] = null;
             this.entregou.add(m);
             contaVDD  = gerador.nextBoolean();
             if (contaVDD == true && m.getTipo()==Tipo.Legal){
@@ -114,15 +115,15 @@ public class Bag {
         }
     }
     
-    public List<Mercadoria> igualdade(){
+    public List<Mercadoria> igualdade(List<Mercadoria> l1, List<Mercadoria> l2){
         List<Mercadoria> dif = new ArrayList();
         
-        if (this.dizQueEntregou.containsAll(entregou)){
+        if (l1.containsAll(l2)){
             return dif;
         }
         else{
-            for (Mercadoria m: this.entregou){
-                if (this.dizQueEntregou.contains(m)){
+            for (Mercadoria m: l2){
+                if (l1.contains(m)){
                     dif.add(m);
                 }
             }
@@ -138,21 +139,21 @@ public class Bag {
         ja que pode entregar de 1 a 5 cartas
     quantasMentiu/quantasentregou
 */
-    public float mudaConfianca(){
-        List<Mercadoria> diferenca = this.diferenca();
+    public static float mudaConfianca(List<Mercadoria> entregue, List<Mercadoria> declarado){
+        List<Mercadoria> diferenca = Bag.diferenca(entregue, declarado);
         float retorno = 0;
         int maFe = 0;
         if (diferenca.isEmpty()){
             return 1/9 ;
         }
         else {
-            retorno -= 1/9*diferenca().size()/this.entregou.size();
+            retorno -= 1/9*Bag.diferenca(entregue, declarado).size()/entregue.size();
             for (Mercadoria m: diferenca){
                 if (m.getTipo()!= Tipo.Legal){
                     maFe++; 
                 }
             }
-            retorno *= (1.1 + maFe)/this.entregou.size(); //punicao por má fé
+            retorno *= (1.1 + maFe)/entregue.size(); //punicao por má fé
             return retorno;
         }
     }
@@ -169,7 +170,7 @@ public class Bag {
         for (Mercadoria merc: this.entregou){
             this.jogador.arrecada(merc.id);
         }
-        this.jogador.confianca += this.mudaConfianca();
+        this.jogador.confianca += Bag.mudaConfianca(this.entregou, this.dizQueEntregou);
     }
     
     /*- Se um jogador é inspecionado, e não tem exatamente o que foi declarado, 
@@ -191,7 +192,7 @@ public class Bag {
             }
         }
         else {
-            for (Mercadoria merc: this.igualdade()){
+            for (Mercadoria merc: this.igualdade(this.entregou, this.dizQueEntregou)){
                 this.jogador.arrecada(merc.id);
             }
             for (Mercadoria merc: this.diferenca()){
@@ -199,7 +200,7 @@ public class Bag {
                 this.xerife.arrecada(merc.id);
             }
         }
-        this.jogador.confianca += this.mudaConfianca();
+        this.jogador.confianca += this.mudaConfianca(this.entregou, this.dizQueEntregou);
     }
 
     //--------------------------SUBORNO-----------------------------------------
@@ -216,7 +217,7 @@ public class Bag {
             this.jogador.perdeOuro(ouro);
             this.xerife.recebe(ouro);
         }
-        this.jogador.confianca += this.mudaConfianca();
+        this.jogador.confianca += this.mudaConfianca(this.entregou, this.dizQueEntregou);
     }
     
     public void seXerifeSubornado(Mercadoria...produtoBag){
@@ -227,7 +228,7 @@ public class Bag {
         for (Mercadoria merc: this.entregou){
             this.jogador.arrecada(merc.id);
         }
-        this.jogador.confianca += this.mudaConfianca();
+        this.jogador.confianca += this.mudaConfianca(this.entregou, this.dizQueEntregou);
     }
 }
 
